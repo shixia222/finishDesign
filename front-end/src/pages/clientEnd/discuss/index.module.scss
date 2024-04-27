@@ -1,0 +1,82 @@
+.root {
+  width: 100%;
+
+  .img1 {
+    width: 100%;
+    height: 35vh;
+  }
+
+  .randomAskContainer {
+    position: relative;
+    height: 35vh;
+    background-color: rgba(177, 243, 243, 1);
+  }
+
+  .randomAskTitle {
+    position: absolute;
+    top: 3vh;
+    left: 13.5vw;
+    font-size: large;
+    font-weight: bold;
+  }
+
+  .randomAskBlock1 {
+    position: absolute;
+    left: 13.5vw;
+    top: 10vh;
+  }
+
+  .randomAskBlock1 :hover {
+    cursor: pointer;
+  }
+
+  .randomAskBlock2 {
+    position: absolute;
+    left: 43.5vw;
+    top: 10vh;
+  }
+
+  .randomAskBlock2 :hover {
+    cursor: pointer;
+  }
+
+  .askList {
+    width: 60%;
+    margin: 0 auto;
+    height: 120vh;
+    margin-top: 10vh;
+
+    .askBlock {
+      height: 15vh;
+      width: 50vw;
+      border-top: 1px solid rgba(203, 203, 203, 1);
+    }
+
+    .askBlock :hover {
+      cursor: pointer;
+    }
+
+    .blockTitle {
+      margin-top: 1vh;
+      height: 5vh;
+      font-weight: bold;
+    }
+
+    .blockContent {
+      margin-top: 1vh;
+      height: 5vh;
+      font-weight: lighter;
+      font-size: small;
+    }
+
+    .listTitle {
+      font-size: large;
+      font-weight: bold;
+      height: 5vh;
+    }
+
+    .pagination {
+      margin-top: 5vh;
+    }
+  }
+}
