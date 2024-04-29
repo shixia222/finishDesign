@@ -12,9 +12,8 @@ const ManagerIndex: React.FC = () => {
 
   return (
     <div>
-      <Title>欢迎登陆balance管理员系统</Title>
       <Row style={{ marginTop: "10vh" }}>
-        <Col span={9}>
+        <Col span={6}>
           <div
             onClick={() => {
               changePage("/manager/userList");
@@ -25,7 +24,7 @@ const ManagerIndex: React.FC = () => {
             </Card>
           </div>
         </Col>
-        <Col span={9}>
+        <Col span={6}>
           <div
             onClick={() => {
               changePage("/manager/forumList");
@@ -33,6 +32,17 @@ const ManagerIndex: React.FC = () => {
           >
             <Card hoverable style={{ width: 240 }} cover={<img alt="forum" src="/imgs/forum.png" />}>
               <Meta title="论坛管理" description="在这里对论坛信息进行维护" />
+            </Card>
+          </div>
+        </Col>
+        <Col span={6}>
+          <div
+            onClick={() => {
+              changePage("/manager/forumList");
+            }}
+          >
+            <Card hoverable style={{ width: 240 }} cover={<img alt="forum" src="/imgs/forum.png" />}>
+              <Meta title="课程" description="在这里对课程信息进行维护" />
             </Card>
           </div>
         </Col>

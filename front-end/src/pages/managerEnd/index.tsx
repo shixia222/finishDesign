@@ -32,7 +32,7 @@ const ManagerHome: React.FC = () => {
             {
               key: "logo",
               icon: <AliwangwangOutlined />,
-              label: "balance管理系统",
+              label: "移动健康管理系统后台",
               onClick: () => {
                 changePage("/manager/home");
               },
@@ -75,6 +75,21 @@ const ManagerHome: React.FC = () => {
                 },
               ],
             },
+            {
+              key: "course",
+              icon: <WechatOutlined />,
+              label: "课程",
+              children: [
+                {
+                  key: "forumList",
+                  icon: <UserOutlined />,
+                  label: "课程列表",
+                  onClick: () => {
+                    changePage("/manager/courseList");
+                  },
+                },
+              ],
+            },
           ]}
         />
       </Sider>
@@ -84,17 +99,6 @@ const ManagerHome: React.FC = () => {
             className: "trigger",
             onClick: () => setCollapsed(!collapsed),
           })}
-          <Button
-            type="primary"
-            size="small"
-            style={{ position: "absolute", right: 40, top: 20 }}
-            onClick={() => {
-              storage.removeItem("message");
-              changePage("/client/home");
-            }}
-          >
-            退出
-          </Button>
         </Header>
         <Content
           className="site-layout-background"
