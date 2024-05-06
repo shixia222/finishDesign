@@ -10,8 +10,8 @@ interface DataType {
   key: string;
   content: string;
   username: string;
-  createTime: string;
-  userId: string;
+  time: string;
+  user_id: string;
 }
 
 const ForumDetails: React.FC = () => {
@@ -26,26 +26,21 @@ const ForumDetails: React.FC = () => {
   const changPage = (url: string, id: string) => {
     navigate(url, { state: { id } });
   };
-
-  const getDetails = (askId: string) => {
-    fetch("http://localhost:4000/api/asks/getDetails", {
+  const getDetails = (_id: string) => {
+    fetch("http://localhost:4000/api/post/getDetails", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        askId: askId,
+        _id: _id,
       }),
     })
       .then((res) => {
         return res.json();
       })
       .then((res) => {
-        if (res.success) {
-          setOneAsk(res.data);
-        } else {
-          setOneAsk({});
-        }
+        setOneAsk(res[0]);
       })
       .catch(() => {
         alert("网络错误！");
@@ -53,13 +48,13 @@ const ForumDetails: React.FC = () => {
   };
 
   const getList = (curPage: number, number: number) => {
-    fetch("http://localhost:4000/api/answers/getList", {
+    fetch("http://localhost:4000/api/reply/getListById", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        askId: id,
+        post_id: id,
         curPage: curPage,
         number: number,
       }),
@@ -73,6 +68,7 @@ const ForumDetails: React.FC = () => {
           res.data?.forEach((item: any) => {
             item.key = item._id;
           });
+          
           setList(res.data);
         } else {
           setList([]);
@@ -83,9 +79,9 @@ const ForumDetails: React.FC = () => {
       });
   };
 
-  const deleteAnswer = (_: any, record: any) => {
+  const deleteReply = (_: any, record: any) => {
     console.log(record);
-    fetch("http://localhost:4000/api/answers/deleteAnswer", {
+    fetch("http://localhost:4000/api/reply/deleteReply", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -138,27 +134,35 @@ const ForumDetails: React.FC = () => {
     },
     {
       title: "用户",
-      dataIndex: "username",
-      key: "username",
+      dataIndex: "user_id",
+      key: "user_id",
       render: (_, record) => (
         <Space size="middle">
-          <Button type="link" onClick={() => changPage(`/manager/userDetails/${record?.userId}`, record?.userId)}>
-            {record?.username}
+          <Button
+            type="link"
+            onClick={() =>
+              changPage(
+                `/manager/userDetails/${record?.user_id}`,
+                record?.user_id
+              )
+            }
+          >
+            {record?.user_id}
           </Button>
         </Space>
       ),
     },
     {
       title: "时间",
-      dataIndex: "createTime",
-      key: "createTime",
+      dataIndex: "time",
+      key: "time",
     },
     {
       title: "操作",
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Button type="link" danger onClick={() => deleteAnswer(_, record)}>
+          <Button type="link" danger onClick={() => deleteReply(_, record)}>
             删除
           </Button>
         </Space>
@@ -170,15 +174,22 @@ const ForumDetails: React.FC = () => {
       <Content style={{ background: "white", padding: 20, marginBottom: 20 }}>
         <Descriptions title="帖子信息">
           <Descriptions.Item label="标题">{oneAsk?.title}</Descriptions.Item>
-          <Descriptions.Item label="发帖人">{oneAsk?.username}</Descriptions.Item>
-          <Descriptions.Item label="发布时间">{oneAsk?.createTime}</Descriptions.Item>
-          <Descriptions.Item label="评论数">{oneAsk?.commentNum}</Descriptions.Item>
-          <Descriptions.Item label="点赞数">{oneAsk?.likeNum}</Descriptions.Item>
+          <Descriptions.Item label="发帖人">
+            {oneAsk?.username}
+          </Descriptions.Item>
+          <Descriptions.Item label="发布时间">{oneAsk?.time}</Descriptions.Item>
+          <Descriptions.Item label="帖子类型">
+            {oneAsk?.type == "motion" ? "训练" : "饮食"}
+          </Descriptions.Item>
         </Descriptions>
       </Content>
       <Content style={{ background: "white", padding: 20 }}>
         <h3 style={{ marginLeft: 5 }}>评论</h3>
-        <Table columns={columns} dataSource={list} pagination={paginationProps} />
+        <Table
+          columns={columns}
+          dataSource={list}
+          pagination={paginationProps}
+        />
       </Content>
     </Layout>
   );

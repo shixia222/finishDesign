@@ -77,22 +77,21 @@ const UserController = {
   //   }
   // },
 
-  // getList: async (req, res) => {
-  //   const { curPage, number } = req.body;
-  //   const result = await UserService.getList(curPage, number);
-  //   if (result.data.length != 0) {
-  //     res.send({
-  //       success: true,
-  //       total: result.total,
-  //       data: result.data,
-  //     });
-  //   } else {
-  //     res.send({
-  //       success: false,
-  //     });
-  //   }
-  // },
-
+  getList: async (req, res) => {
+    const { curPage, number } = req.body;
+    const result = await UserService.getList(curPage, number);
+    if (result.data.length != 0) {
+      res.send({
+        success: true,
+        total: result.total,
+        data: result.data,
+      });
+    } else {
+      res.send({
+        success: false,
+      });
+    }
+  },
   getDetails: async (req, res) => {
     const { openid } = req.body;
     const result = await UserService.getDetails(openid);

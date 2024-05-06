@@ -20,6 +20,15 @@ const ReplyService = {
         return err;
       });
   },
+  deleteReply: (id) => {
+    return ReplyModel.deleteOne({ _id: id }).then((res) => {
+      if (res.deletedCount == 1) {
+        return "success";
+      } else {
+        return "failed";
+      }
+    });
+  },
   getListById: (curPage, number, post_id) => {
     return ReplyModel.find({ post_id: post_id }).then((res) => {
       return {

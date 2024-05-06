@@ -14,6 +14,17 @@ const ReplyController = {
       res.send({ success: false, reason: result.message });
     }
   },
+  deleteReply: async (req, res) => {
+    const { id } = req.body;
+    const result = await ReplyService.deleteReply(id);
+    if (result == "success") {
+      res.send({
+        success: true,
+      });
+    } else {
+      res.send({ success: false });
+    }
+  },
   getListById: async (req, res) => {
     const { curPage, number, post_id } = req.body;
     const result = await ReplyService.getListById(curPage, number, post_id);

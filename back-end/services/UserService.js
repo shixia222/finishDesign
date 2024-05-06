@@ -98,11 +98,14 @@ const UserService = {
   //     }
   //   );
   // },
-  // getList: (curPage, number) => {
-  //   return UserModel.find().then((res) => {
-  //     return { total: res.length, data: res.splice((curPage - 1) * number, number) };
-  //   });
-  // },
+  getList: (curPage, number) => {
+    return UserModel.find().then((res) => {
+      return {
+        total: res.length,
+        data: res.splice((curPage - 1) * number, number),
+      };
+    });
+  },
   getDetails: (openid) => {
     return UserModel.find({ openid: openid });
   },

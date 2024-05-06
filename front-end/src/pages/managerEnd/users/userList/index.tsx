@@ -9,9 +9,8 @@ import type { FilterConfirmProps } from "antd-v5/es/table/interface";
 interface DataType {
   key: string;
   username: string;
-  account: string;
   gender: string;
-  createTime: string;
+  city: string;
 }
 
 type DataIndex = keyof DataType;
@@ -42,34 +41,53 @@ const UserList: React.FC = () => {
     clearFilters();
     setSearchText("");
   };
-  const getColumnSearchProps = (dataIndex: DataIndex): ColumnType<DataType> => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+  const getColumnSearchProps = (
+    dataIndex: DataIndex
+  ): ColumnType<DataType> => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
       <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
         <Input
           ref={searchInput}
           placeholder={`search ${dataIndex}`}
           value={selectedKeys[0]}
-          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() =>
+            handleSearch(selectedKeys as string[], confirm, dataIndex)
+          }
           style={{ marginBottom: 8, display: "block" }}
         />
         <Space>
           <Button
             type="primary"
-            onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+            onClick={() =>
+              handleSearch(selectedKeys as string[], confirm, dataIndex)
+            }
             icon={<SearchOutlined />}
             size="small"
             style={{ width: 90 }}
           >
             搜索
           </Button>
-          <Button onClick={() => clearFilters && handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
             重置
           </Button>
         </Space>
       </div>
     ),
-    filterIcon: (filtered: boolean) => <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />,
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+    ),
     onFilter: (value, record) =>
       record[dataIndex]
         .toString()
@@ -108,39 +126,11 @@ const UserList: React.FC = () => {
       .then((res) => {
         setTotal(res.total);
         res.data?.forEach((item: any) => {
-          item.key = item._id;
+          item.key = item.openid;
         });
         setList(res.data);
       })
-      .catch(() => {
-        alert("网络错误！");
-      });
-  };
-
-  const deleteUser = (_: any, record: any) => {
-    fetch("http://localhost:4000/api/users/deleteUser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: record._id,
-      }),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((res) => {
-        if (res.success) {
-          alert("删除成功！");
-          getList(curPage, 8);
-        } else {
-          alert("删除失败！");
-        }
-      })
-      .catch(() => {
-        alert("网络错误！");
-      });
+      
   };
 
   useEffect(() => {
@@ -170,30 +160,30 @@ const UserList: React.FC = () => {
       key: "gender",
       dataIndex: "gender",
       render: (gender) => {
-        return gender === "famale" ? <Tag color="pink">女</Tag> : <Tag color="blue">男</Tag>;
+        return gender === "女" ? (
+          <Tag color="pink">女</Tag>
+        ) : (
+          <Tag color="blue">男</Tag>
+        );
       },
     },
     {
-      title: "账号",
-      dataIndex: "account",
-      key: "account",
-      ...getColumnSearchProps("account"),
-    },
-    {
-      title: "创建时间",
-      dataIndex: "createTime",
-      key: "createTime",
+      title: "城市",
+      dataIndex: "city",
+      key: "city",
     },
     {
       title: "操作",
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Button type="link" onClick={() => changPage(`/manager/userDetails/${record.key}`, record.key)}>
+          <Button
+            type="link"
+            onClick={() =>
+              changPage(`/manager/userDetails/${record.key}`, record.key)
+            }
+          >
             详情
-          </Button>
-          <Button type="link" danger onClick={() => deleteUser(_, record)}>
-            删除
           </Button>
         </Space>
       ),
@@ -209,7 +199,9 @@ const UserList: React.FC = () => {
     showSizeChanger: false,
   };
 
-  return <Table columns={columns} dataSource={list} pagination={paginationProps} />;
+  return (
+    <Table columns={columns} dataSource={list} pagination={paginationProps} />
+  );
 };
 
 export default UserList;

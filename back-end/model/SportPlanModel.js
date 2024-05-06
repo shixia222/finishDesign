@@ -12,6 +12,6 @@ const planSchema = new Schema({
   plan_content: [{ type: planTypeSchema }],
 });
 
-const planModel = mongoose.model("plan", planSchema);
+const sportPlanModel = mongoose.model("sportPlan", planSchema);
 
-module.exports = planModel;
+module.exports = sportPlanModel;

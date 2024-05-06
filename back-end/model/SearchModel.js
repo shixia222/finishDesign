@@ -10,7 +10,7 @@ const screenTypeSchema = new Schema({
 
 const SearchSchema = new Schema({
   user_id: String,
-  content: [{ type: screenTypeSchema }],
+  search_content: [{ type: screenTypeSchema }],
 });
 
 const SearchModel = mongoose.model("search", SearchSchema);

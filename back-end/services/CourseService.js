@@ -4,53 +4,25 @@ const CourseModel = require("../model/CourseModel");
 // const AnswerModel = require("../model/AnswerModel");
 
 const CourseService = {
-  //   addUser: (username, gender, age, account, password, createTime, height) => {
-  //     return UserModel.create({
-  //       username,
-  //       gender,
-  //       age,
-  //       account,
-  //       password,
-  //       createTime,
-  //       height,
-  //     })
-  //       .then((res) => {
-  //         const { _id, username, gender, height } = res;
-  //         const data = {
-  //           id: _id,
-  //           username: username,
-  //           gender: gender,
-  //           height: height,
-  //         };
-  //         RecordModel.create({
-  //           userId: _id,
-  //           weight: JSON.stringify([]),
-  //           bloodFat: JSON.stringify([]),
-  //           bloodPressure: JSON.stringify([]),
-  //           bloodSugar: JSON.stringify([]),
-  //           bodyFatRatio: JSON.stringify([]),
-  //         });
-  //         return {
-  //           success: true,
-  //           data: data,
-  //         };
-  //       })
-  //       .catch((err) => {
-  //         return err;
-  //       });
-  //   },
-  //   deleteUser: (id) => {
-  //     return UserModel.deleteOne({ _id: id }).then((res) => {
-  //       RecordModel.deleteOne({ userId: id });
-  //       AskModel.deleteOne({ userId: id });
-  //       AnswerModel.deleteOne({ userId: id });
-  //       if (res.deletedCount == 1) {
-  //         return "success";
-  //       } else {
-  //         return "failed";
-  //       }
-  //     });
-  //   },
+  addCourse: (course_name, content, img, video_path, type, resolution_type) => {
+    return CourseModel.create({
+      course_name,
+      content,
+      img,
+      video_path,
+      type,
+      resolution_type,
+    });
+  },
+  deleteCourse: (id) => {
+    return CourseModel.deleteOne({ _id: id }).then((res) => {
+      if (res.deletedCount == 1) {
+        return "success";
+      } else {
+        return "failed";
+      }
+    });
+  },
   //   updateUser: (id, username, password) => {
   //     return UserModel.updateOne(
   //       { _id: id },
@@ -97,6 +69,14 @@ const CourseService = {
   },
   getListByType: (curPage, number, type) => {
     return CourseModel.find({ type: type }).then((res) => {
+      return {
+        total: res.length,
+        data: res.splice((curPage - 1) * number, number),
+      };
+    });
+  },
+  getListByResType: (curPage, number, resolution_type) => {
+    return CourseModel.find({ resolution_type: resolution_type }).then((res) => {
       return {
         total: res.length,
         data: res.splice((curPage - 1) * number, number),

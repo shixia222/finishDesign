@@ -6,7 +6,7 @@ const ReplyModel = require("../model/ReplyModel");
 // //发布回复
 router.post("/addReply", ReplyController.addReply);
 // //删除回复
-// router.post("/deleteReply", ReplyController.deleteReply);
+router.post("/deleteReply", ReplyController.deleteReply);
 // //修改回复
 // router.post("/updateReply", ReplyController.updateReply);
 // //根据帖子ID查找回复列表

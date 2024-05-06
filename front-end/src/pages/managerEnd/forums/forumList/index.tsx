@@ -9,10 +9,10 @@ import type { FilterConfirmProps } from "antd-v5/es/table/interface";
 interface DataType {
   key: string;
   title: string;
-  userId: string;
-  account: string;
+  user_id: string;
   username: string;
-  createTime: string;
+  time: string;
+  type: string;
 }
 
 type DataIndex = keyof DataType;
@@ -33,7 +33,7 @@ const ForumList: React.FC = () => {
   const searchInput = useRef<InputRef>(null);
 
   const getList = (curPage: number, number: number) => {
-    fetch("http://localhost:4000/api/asks/getList", {
+    fetch("http://localhost:4000/api/post/getList", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const ForumList: React.FC = () => {
   };
 
   const deleteAsk = (_: any, record: any) => {
-    fetch("http://localhost:4000/api/asks/deleteAsk", {
+    fetch("http://localhost:4000/api/post/deletePost", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -168,7 +168,7 @@ const ForumList: React.FC = () => {
         <Button
           type="link"
           onClick={() => {
-            changPage(`/manager/userDetails/${record.userId}`, record.userId);
+            changPage(`/manager/userDetails/${record.user_id}`, record.user_id);
           }}
         >
           {record.username}
@@ -177,8 +177,8 @@ const ForumList: React.FC = () => {
     },
     {
       title: "创建时间",
-      dataIndex: "createTime",
-      key: "createTime",
+      dataIndex: "time",
+      key: "time",
     },
     {
       title: "操作",

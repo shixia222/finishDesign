@@ -9,7 +9,7 @@ const { Content } = Layout;
 interface DataType {
   key: string;
   title: string;
-  createTime: string;
+  time: string;
 }
 
 const UserDetails: React.FC = () => {
@@ -20,7 +20,6 @@ const UserDetails: React.FC = () => {
   const [curPage, setCurPage] = useState<number>(1);
   const [userData, setUserData] = useState<any>({});
   const [total, setTotal] = useState<number>(1);
-
   const changPage = (url: string, id: string) => {
     navigate(url, { state: { id } });
   };
@@ -32,7 +31,7 @@ const UserDetails: React.FC = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: id,
+        openid: id,
       }),
     })
       .then((res) => {
@@ -40,20 +39,17 @@ const UserDetails: React.FC = () => {
       })
       .then((res) => {
         setUserData(res[0]);
-      })
-      .catch(() => {
-        alert("网络错误！");
       });
   };
 
   const getList = (curPage: number, number: number) => {
-    fetch("http://localhost:4000/api/asks/getList", {
+    fetch("http://localhost:4000/api/post/getListByid", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: id,
+        user_id: id,
         curPage: curPage,
         number: number,
       }),
@@ -71,14 +67,11 @@ const UserDetails: React.FC = () => {
         } else {
           setList([]);
         }
-      })
-      .catch(() => {
-        alert("网络错误！");
       });
   };
 
   const deleteAsk = (_: any, record: any) => {
-    fetch("http://localhost:4000/api/asks/deleteAsk", {
+    fetch("http://localhost:4000/api/post/deletePost", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -97,9 +90,6 @@ const UserDetails: React.FC = () => {
         } else {
           alert("删除失败！");
         }
-      })
-      .catch(() => {
-        alert("网络错误！");
       });
   };
 
@@ -128,7 +118,12 @@ const UserDetails: React.FC = () => {
       key: "title",
       render: (_, record) => (
         <Space size="middle">
-          <Button type="link" onClick={() => changPage(`/manager/forumDetails/${record.key}`, record.key)}>
+          <Button
+            type="link"
+            onClick={() =>
+              changPage(`/manager/forumDetails/${record.key}`, record.key)
+            }
+          >
             {record?.title}
           </Button>
         </Space>
@@ -136,15 +131,20 @@ const UserDetails: React.FC = () => {
     },
     {
       title: "创建时间",
-      dataIndex: "createTime",
-      key: "createTime",
+      dataIndex: "time",
+      key: "time",
     },
     {
       title: "操作",
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Button type="link" onClick={() => changPage(`/manager/forumDetails/${record.key}`, record.key)}>
+          <Button
+            type="link"
+            onClick={() =>
+              changPage(`/manager/forumDetails/${record.key}`, record.key)
+            }
+          >
             详情
           </Button>
           <Button type="link" danger onClick={() => deleteAsk(_, record)}>
@@ -154,21 +154,45 @@ const UserDetails: React.FC = () => {
       ),
     },
   ];
-
   return (
     <Layout>
       <Content style={{ background: "white", padding: 20, marginBottom: 20 }}>
         <Descriptions title="用户信息">
-          <Descriptions.Item label="用户名">{userData?.username}</Descriptions.Item>
-          <Descriptions.Item label="性别">{userData?.gender == "male" ? "男" : "女"}</Descriptions.Item>
-          <Descriptions.Item label="账号">{userData?.account}</Descriptions.Item>
-          <Descriptions.Item label="密码">{userData?.password}</Descriptions.Item>
+          <Descriptions.Item label="用户名">
+            {userData?.username}
+          </Descriptions.Item>
+          <Descriptions.Item label="性别">
+            {userData?.gender == "男" ? "男" : "女"}
+          </Descriptions.Item>
+          <Descriptions.Item label="城市">{userData?.city}</Descriptions.Item>
+          <Descriptions.Item label="出生日期">
+            {userData?.age}
+          </Descriptions.Item>
+          <Descriptions.Item label="手机号">
+            {userData?.mobile}
+          </Descriptions.Item>
+          <Descriptions.Item label="电子邮箱">
+            {userData?.email}
+          </Descriptions.Item>
+          <Descriptions.Item label="体重">
+            {userData?.weight}
+          </Descriptions.Item>
+          <Descriptions.Item label="身高">
+            {userData?.height}
+          </Descriptions.Item>
+          <Descriptions.Item label="简介">
+            {userData?.introduce}
+          </Descriptions.Item>
           <Descriptions.Item label="发帖数">{total}</Descriptions.Item>
         </Descriptions>
       </Content>
       <Content style={{ background: "white", padding: 20 }}>
         <h3 style={{ marginLeft: 5 }}>发帖</h3>
-        <Table columns={columns} dataSource={list} pagination={paginationProps} />
+        <Table
+          columns={columns}
+          dataSource={list}
+          pagination={paginationProps}
+        />
       </Content>
     </Layout>
   );

@@ -12,7 +12,7 @@ router.post("/updateUser", UserController.updateUser);
 // //用户登录
 // router.post("/signIn", UserController.signIn);
 // //查找用户列表
-// router.post("/getList", UserController.getList);
+router.post("/getList", UserController.getList);
 // //查找用户详情
 router.post("/getDetails", UserController.getDetails);
 
