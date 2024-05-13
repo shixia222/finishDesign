@@ -41,7 +41,7 @@ const ManagerIndex: React.FC = () => {
               changePage("/manager/forumList");
             }}
           >
-            <Card hoverable style={{ width: 240 }} cover={<img alt="forum" src="/imgs/forum.png" />}>
+            <Card hoverable style={{ width: 240 }} cover={<img alt="forum" src="/imgs/course.png" />}>
               <Meta title="课程" description="在这里对课程信息进行维护" />
             </Card>
           </div>

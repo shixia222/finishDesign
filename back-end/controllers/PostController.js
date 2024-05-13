@@ -71,6 +71,11 @@ const PostController = {
     const result = await PostService.getDetails(_id);
     res.send(result);
   },
+  getDetailsByType: async (req, res) => {
+    const { type } = req.body;
+    const result = await PostService.getDetailsByType(type);
+    res.send(result);
+  },
   getDetailsByParams: async (req, res) => {
     const { user_id, content, type, time, click } = req.body;
     const result = await PostService.getDetailsByParams(content, type, time);

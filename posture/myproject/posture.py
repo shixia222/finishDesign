@@ -17,7 +17,7 @@ def predict():
     request_data = request.get_json()
     front_image_bytes = request_data['front_image']
     side_image_bytes = request_data['side_image']
-
+    print(front_image_bytes)
     # 将二进制数据流转换为图片
     front_image = Image.open(io.BytesIO(front_image_bytes.encode('latin1')))
     side_image = Image.open(io.BytesIO(side_image_bytes.encode('latin1')))

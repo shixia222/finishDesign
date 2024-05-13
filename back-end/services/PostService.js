@@ -52,6 +52,9 @@ const PostService = {
   getDetails: (_id) => {
     return PostModel.find({ _id: _id });
   },
+  getDetailsByType: (type) => {
+    return PostModel.find({ type: type });
+  },
   getDetailsByParams: (content, type, time) => {
     // 将传入的时间字符串转换为 Moment.js 对象
     const specifiedTime = moment(time, "YYYY/MM/DD HH:mm:ss");

@@ -17,6 +17,7 @@ router.post("/getListByid", PostController.getListByid);
 router.post("/getDetails", PostController.getDetails);
 // //查找帖子
 router.post("/getDetailsByParams", PostController.getDetailsByParams);
+router.post("/getDetailsByType", PostController.getDetailsByType);
 
 
 module.exports = router;
